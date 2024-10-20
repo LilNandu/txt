@@ -1,0 +1,102 @@
+#include <graphics.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <conio.h>
+
+void main() {
+    int gm, gd = DETECT;
+    int x1, x2, x3, y1, y2, y3, nx1, nx2, nx3, ny1, ny2, ny3, c;
+    int sx, sy, tx, ty, r, mx, my;
+    float t;
+    
+    initgraph(&gd, &gm, "C:\\TURBOC3\\BGI");
+
+    printf("\tProgram for basic 2D Transformations\n");
+    printf("\n\tEnter the points of triangle: ");
+    scanf("%d %d %d %d %d %d", &x1, &y1, &x2, &y2, &x3, &y3);
+
+    setcolor(WHITE);
+    line(x1, y1, x2, y2);
+    line(x2, y2, x3, y3);
+    line(x3, y3, x1, y1);
+    getch();
+
+    printf("\n1. Translation\n2. Rotation\n3. Scaling\n4. Exit");
+    printf("\nEnter your choice: ");
+    scanf("%d", &c);
+
+    switch (c) {
+        case 1:  // Translation
+            printf("\nEnter the translation factors (tx ty): ");
+            scanf("%d %d", &tx, &ty);
+            nx1 = x1 + tx;
+            ny1 = y1 + ty;
+            nx2 = x2 + tx;
+            ny2 = y2 + ty;
+            nx3 = x3 + tx;
+            ny3 = y3 + ty;
+
+            // Draw the translated triangle
+            setcolor(RED);  // Set different color for visual distinction
+            line(nx1, ny1, nx2, ny2);
+            line(nx2, ny2, nx3, ny3);
+            line(nx3, ny3, nx1, ny1);
+            getch();
+            break;
+
+        case 2:  // Rotation
+            printf("\nEnter the angle of rotation (in degrees): ");
+            scanf("%d", &r);
+            t = 3.14 * r / 180;  // Convert degree to radians
+
+            // Rotation about the origin
+            nx1 = abs(x1 * cos(t) - y1 * sin(t));
+            ny1 = abs(x1 * sin(t) + y1 * cos(t));
+            nx2 = abs(x2 * cos(t) - y2 * sin(t));
+            ny2 = abs(x2 * sin(t) + y2 * cos(t));
+            nx3 = abs(x3 * cos(t) - y3 * sin(t));
+            ny3 = abs(x3 * sin(t) + y3 * cos(t));
+
+            // Draw the rotated triangle
+            setcolor(GREEN);
+            line(nx1, ny1, nx2, ny2);
+            line(nx2, ny2, nx3, ny3);
+            line(nx3, ny3, nx1, ny1);
+            getch();
+            break;
+
+        case 3:  // Scaling
+            printf("\nEnter the scaling factors (sx sy): ");
+            scanf("%d %d", &sx, &sy);
+
+            // Find centroid of the triangle (for scaling about the centroid)
+            mx = (x1 + x2 + x3) / 3;
+            my = (y1 + y2 + y3) / 3;
+
+            // Scaling relative to centroid
+            nx1 = mx + (x1 - mx) * sx;
+            ny1 = my + (y1 - my) * sy;
+            nx2 = mx + (x2 - mx) * sx;
+            ny2 = my + (y2 - my) * sy;
+            nx3 = mx + (x3 - mx) * sx;
+            ny3 = my + (y3 - my) * sy;
+
+            // Draw the scaled triangle
+            setcolor(BLUE);
+            line(nx1, ny1, nx2, ny2);
+            line(nx2, ny2, nx3, ny3);
+            line(nx3, ny3, nx1, ny1);
+            getch();
+            break;
+
+        case 4:
+            // Exit case
+            break;
+
+        default:
+            printf("Enter the correct choice\n");
+    }
+
+    closegraph();
+}

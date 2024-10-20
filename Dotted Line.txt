@@ -1,0 +1,50 @@
+// Dotted Line
+
+#include <stdio.h>
+#include <graphics.h>
+#include <math.h>
+
+void DDA_Dotted(int x0, int y0, int x1, int y1) {
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+    int steps;
+
+    if (abs(dx) > abs(dy)) {
+        steps = abs(dx);
+    } else {
+        steps = abs(dy);
+    }
+
+    float xIncrement = dx / (float) steps;
+    float yIncrement = dy / (float) steps;
+
+    float x = x0;
+    float y = y0;
+
+    for (int i = 0; i < steps; i++) {
+        // Only draw every 3rd point to create a dotted line effect
+        if (i % 3 == 0) {
+            putpixel(round(x), round(y), WHITE);
+        }
+        x += xIncrement;
+        y += yIncrement;
+    }
+}
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    int x0, y0, x1, y1;
+    printf("Enter the starting point (x0, y0): ");
+    scanf("%d %d", &x0, &y0);
+    printf("Enter the ending point (x1, y1): ");
+    scanf("%d %d", &x1, &y1);
+
+    DDA_Dotted(x0, y0, x1, y1);
+
+    getch();
+    closegraph();
+
+    return 0;
+}

@@ -1,0 +1,50 @@
+// Scaling
+#include <graphics.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <conio.h>
+
+void main() {
+    int gm, gd = DETECT;
+    int x1, x2, x3, y1, y2, y3, nx1, nx2, nx3, ny1, ny2, ny3, sx, sy;
+    int mx, my;
+
+    // Initialize the graphics mode
+    initgraph(&gd, &gm, "C:\\TURBOC3\\BGI");
+
+    printf("Program for 2D Scaling\n");
+    printf("Enter the points of the triangle (x1, y1, x2, y2, x3, y3): ");
+    scanf("%d %d %d %d %d %d", &x1, &y1, &x2, &y2, &x3, &y3);
+
+    // Draw the original triangle
+    setcolor(WHITE);
+    line(x1, y1, x2, y2);
+    line(x2, y2, x3, y3);
+    line(x3, y3, x1, y1);
+    getch();
+
+    printf("Enter the scaling factors (sx sy): ");
+    scanf("%d %d", &sx, &sy);
+
+    // Find the centroid of the triangle
+    mx = (x1 + x2 + x3) / 3;
+    my = (y1 + y2 + y3) / 3;
+
+    // Perform scaling relative to the centroid
+    nx1 = mx + (x1 - mx) * sx;
+    ny1 = my + (y1 - my) * sy;
+    nx2 = mx + (x2 - mx) * sx;
+    ny2 = my + (y2 - my) * sy;
+    nx3 = mx + (x3 - mx) * sx;
+    ny3 = my + (y3 - my) * sy;
+
+    // Draw the scaled triangle
+    setcolor(BLUE);
+    line(nx1, ny1, nx2, ny2);
+    line(nx2, ny2, nx3, ny3);
+    line(nx3, ny3, nx1, ny1);
+    getch();
+
+    closegraph();
+}
+

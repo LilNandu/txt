@@ -1,0 +1,54 @@
+// DDA for dashed line
+
+#include <stdio.h>
+#include <graphics.h>
+#include <math.h>
+
+void DDA_Dashed(int x0, int y0, int x1, int y1) {
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+    int steps;
+
+    if (abs(dx) > abs(dy)) {
+        steps = abs(dx);
+    } else {
+        steps = abs(dy);
+    }
+
+    float xIncrement = dx / (float) steps;
+    float yIncrement = dy / (float) steps;
+
+    float x = x0;
+    float y = y0;
+
+    int dashLength = 10;  // Length of the dash
+    int gapLength = 5;    // Length of the gap
+    int patternLength = dashLength + gapLength;
+
+    for (int i = 0; i < steps; i++) {
+        // Only draw pixels for the dash segment, skip for the gap
+        if (i % patternLength < dashLength) {
+            putpixel(round(x), round(y), WHITE);  // Plot the pixel
+        }
+        x += xIncrement;
+        y += yIncrement;
+    }
+}
+
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    int x0, y0, x1, y1;
+    printf("Enter the starting point (x0, y0): ");
+    scanf("%d %d", &x0, &y0);
+    printf("Enter the ending point (x1, y1): ");
+    scanf("%d %d", &x1, &y1);
+
+    DDA_Dashed(x0, y0, x1, y1);
+
+    getch();
+    closegraph();
+
+    return 0;
+}
